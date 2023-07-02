@@ -31,6 +31,15 @@ def get_blog_id(_id):
     return json.loads(objava)
 
 
+@app.route('/api/blog/delete/<_id>', methods=['DELETE'])
+def delete_blog(_id):
+    if _id is not None:
+        db.proces.objava.delete_one({'_id': ObjectId(_id)})
+        return jsonify({"message": "Blog izbrisanm uspešno"})
+    else:
+        return jsonify({"error": "Blog ne obstaja"})
+
+
 if __name__ == '__main__':
     # db.drop()
     # db.seed()
