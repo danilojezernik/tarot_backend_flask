@@ -20,9 +20,14 @@ def get_blog():
 
 @app.route('/api/blog', methods=['POST'])
 def add_blog():
-    data = request.get_json()
-    db.proces.objava.insert_one(data)
-    return 'Blog added successfully'
+    if request.is_json:
+        data = request.get_json()
+        if data is not None:
+            db.proces.objava.insert_one(data)
+            return jsonify({"message": "Objava uspešno dodana!"})
+
+    return jsonify({"error": "Neveljavna zahteva ali manjkajoči podatki!"})
+
 
 
 @app.route('/api/blog/<_id>', methods=['GET', 'POST'])
