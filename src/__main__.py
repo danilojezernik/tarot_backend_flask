@@ -29,7 +29,6 @@ def add_blog():
     return jsonify({"error": "Neveljavna zahteva ali manjkajoči podatki!"})
 
 
-
 @app.route('/api/blog/<_id>', methods=['GET', 'POST'])
 def get_blog_id(_id):
     objava = dumps(db.proces.objava.find_one({'_id': ObjectId(_id)}))
@@ -43,6 +42,18 @@ def delete_blog(_id):
         return jsonify({"message": "Blog izbrisanm uspešno"})
     else:
         return jsonify({"error": "Blog ne obstaja"})
+
+
+@app.route('/api/blog/edit/<_id>', methods=['POST'])
+def update_blog(_id):
+    data = request.get_json()
+    result = db.proces.objava.update_one({'_id': ObjectId(_id)}, {'$set': data})
+    if result.modified_count > 0:
+        updated_document = db.proces.objava.find_one({'_id': ObjectId(_id)})
+        updated_document['_id'] = str(updated_document['_id'])
+        return jsonify({"message": "Objava uspešno posodobljena", "updated_document": updated_document})
+    else:
+        return jsonify({"error": "Objava bloga ni uspela!"})
 
 
 if __name__ == '__main__':
