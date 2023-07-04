@@ -34,9 +34,7 @@ def login():
             username = data.get('username')
             password = data.get('password')
 
-            # Perform authentication here (e.g., check credentials against a user database)
             if username == 'admin' and password == 'password':
-                # Authentication successful
                 session['logged_in'] = True
                 return jsonify({"message": "Login successful"})
 
