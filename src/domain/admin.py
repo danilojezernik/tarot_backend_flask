@@ -5,3 +5,4 @@ from dataclasses import dataclass
 class Admin:
     uporabnisko_ime: str
     geslo: str
+
