@@ -44,3 +44,4 @@ def drop():
 
 def seed():
     proces.objava.insert_many(objava)
+
