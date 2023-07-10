@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Admin:
-    uporabnisko_ime: str
+class User:
+    user: str
     geslo: str
-
+    tip: str

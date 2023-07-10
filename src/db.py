@@ -4,7 +4,7 @@ from dataclasses import asdict
 from pymongo import MongoClient
 
 from src import env
-from src.domain.admin import Admin
+from src.domain.user import User
 from src.domain.objava import Objava
 
 client = MongoClient(env.DB_CONNECTION)
@@ -33,15 +33,17 @@ objava = [
                   objavljeno=datetime.datetime.now())),
 ]
 
-login = [
-    asdict(Admin(uporabnisko_ime=env.UPORABNIK, geslo=env.GESLO))
+users = [
+    asdict(User(user=env.UPORABNIK, geslo=env.GESLO, tip='ADMIN'))
 ]
 
 
 def drop():
     proces.objava.drop()
+    proces.users.drop()
 
 
 def seed():
     proces.objava.insert_many(objava)
+    proces.users.insert_many(users)
 

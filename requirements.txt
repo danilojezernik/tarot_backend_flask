@@ -1,5 +1,7 @@
-flask
+flask~=2.3.2
 flask-cors
 flask-login
-python-dotenv
-pymongo
+python-dotenv~=1.0.0
+pymongo~=4.4.0
+flask-jwt
+Werkzeug~=2.3.6
