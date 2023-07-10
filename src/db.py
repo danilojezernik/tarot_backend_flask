@@ -1,4 +1,5 @@
 import datetime
+import os
 from dataclasses import asdict
 
 from pymongo import MongoClient
@@ -46,4 +47,3 @@ def drop():
 def seed():
     proces.objava.insert_many(objava)
     proces.users.insert_many(users)
-
