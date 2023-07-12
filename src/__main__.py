@@ -49,58 +49,42 @@ def login():
 @app.route('/api/blog_pregled', methods=['GET'])
 @jwt_required()
 def get_blog_pregled():
-    current_user = get_jwt_identity()
-    if current_user:
-        return json.loads(dumps(db.proces.objava.find()))
-    return jsonify(logged_in_as=current_user), 200
+    return json.loads(dumps(db.proces.objava.find()))
 
 
 @app.route('/api/blog', methods=['POST'])
 @jwt_required()
 def add_blog():
-    current_user = get_jwt_identity()
     data = request.get_json()
     if data is not None:
         db.proces.objava.insert_one(data)
         return jsonify({"message": "Objava uspešno dodana!"})
 
-    return jsonify(logged_in_as=current_user), 200
-
 
 @app.route('/api/admin')
 @jwt_required()
 def get_admin():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    return jsonify({'msg': 'Loged in!'})
 
 
 @app.route('/api/blog/delete/<_id>', methods=['DELETE'])
 @jwt_required()
 def delete_blog(_id):
-    current_user = get_jwt_identity()
-    if current_user:
-        if _id is not None:
-            db.proces.objava.delete_one({'_id': ObjectId(_id)})
-            return jsonify({"message": "Blog izbrisanm uspešno"})
-        else:
-            return jsonify({"error": "Blog ne obstaja"})
-    return jsonify(logged_in_as=current_user), 200
+    db.proces.objava.delete_one({'_id': ObjectId(_id)})
+    return jsonify({"message": "Blog izbrisanm uspešno"})
 
 
 @app.route('/api/blog/edit/<_id>', methods=['POST'])
 @jwt_required()
 def update_blog(_id):
-    current_user = get_jwt_identity()
-    if current_user:
-        data = request.get_json()
-        result = db.proces.objava.update_one({'_id': ObjectId(_id)}, {'$set': data})
-        if result.modified_count > 0:
-            updated_document = db.proces.objava.find_one({'_id': ObjectId(_id)})
-            updated_document['_id'] = str(updated_document['_id'])
-            return jsonify({"message": "Objava uspešno posodobljena", "updated_document": updated_document})
-        else:
-            return jsonify({"error": "Objava bloga ni uspela!"})
-    return jsonify(logged_in_as=current_user), 200
+    data = request.get_json()
+    result = db.proces.objava.update_one({'_id': ObjectId(_id)}, {'$set': data})
+    if result.modified_count > 0:
+        updated_document = db.proces.objava.find_one({'_id': ObjectId(_id)})
+        updated_document['_id'] = str(updated_document['_id'])
+        return jsonify({"message": "Objava uspešno posodobljena", "updated_document": updated_document})
+    else:
+        return jsonify({"error": "Objava bloga ni uspela!"})
 
 
 if __name__ == '__main__':
