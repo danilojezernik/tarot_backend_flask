@@ -87,5 +87,10 @@ def update_blog(_id):
         return jsonify({"error": "Objava bloga ni uspela!"})
 
 
+def test():
+    print('Hello World!')
+    app.run(host='0.0.0.0', port=env.PORT, debug=False)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=env.PORT, debug=True)
+    test()
