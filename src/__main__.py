@@ -5,8 +5,7 @@ from bson import ObjectId
 from bson.json_util import dumps
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, jwt_required, JWTManager
 
 from src import db, env
 
@@ -15,6 +14,7 @@ CORS(app)
 
 app.secret_key = env.SECRET_KEY
 jwt = JWTManager(app)
+
 db_username = os.getenv('UPORABNIK')
 db_geslo = os.getenv('GESLO')
 
@@ -64,7 +64,7 @@ def add_blog():
 @app.route('/api/admin')
 @jwt_required()
 def get_admin():
-    return jsonify({'msg': 'Loged in!'})
+    return jsonify({'msg': 'Ste vpisani!'})
 
 
 @app.route('/api/blog/delete/<_id>', methods=['DELETE'])
@@ -88,6 +88,4 @@ def update_blog(_id):
 
 
 if __name__ == '__main__':
-    # db.drop()
-    # db.seed()
     app.run(host='0.0.0.0', port=env.PORT, debug=True)
