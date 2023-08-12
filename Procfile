@@ -1,1 +1,1 @@
-web: python __main__.py
+web: gunicorn src.__main__:app
